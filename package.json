@@ -1,0 +1,30 @@
+{
+  "name": "se3316-ldelotav-ddeleon5-echevari-lab4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisdelotavo/se3316-ldelotav-ddeleon5-echevari-lab4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luisdelotavo/se3316-ldelotav-ddeleon5-echevari-lab4/issues"
+  },
+  "homepage": "https://github.com/luisdelotavo/se3316-ldelotav-ddeleon5-echevari-lab4#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "csv-parser": "^3.0.0",
+    "express": "^4.18.2",
+    "mongodb": "^4.12.1",
+    "mongoose": "^6.7.4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
+  }
+}
