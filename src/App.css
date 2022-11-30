@@ -1,0 +1,130 @@
+body {
+  background-color: #7a7373;
+  
+}
+
+ul {
+  list-style-type: none;
+}
+
+.search-bar{
+  table-layout: fixed;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.trackSearchText, .artistSearchText, .albumSearchText {
+  font-family: 'Raleway',sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 32px;
+  margin: 0 0 24px;
+  font-weight: bold;
+}
+
+#trackSearch, #artistSearch, #albumSearch {
+  border: 2px solid rgb(73, 73, 73);
+  border-radius: 4px;
+  height: 25px;
+}
+.search-table{
+  table-layout: fixed;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 3px 15px rgb(0, 0, 0);
+  background-color: rgb(250, 205, 179);
+  
+}
+
+.header-table{
+  table-layout: fixed;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 3px 15px rgb(0, 0, 0);
+  background-color: rgb(248, 131, 63);
+}
+
+.search-data{
+  width: 25% ;
+  text-align: left;
+  padding: 10px;
+}
+
+th{
+
+  text-align: left;
+  padding: 10px;
+  width: 25% ;
+  font-family: 'Raleway',sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 32px;
+  margin: 0 0 24px;
+  font-weight: bold;
+  
+}
+
+.intro{
+  padding: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: rgb(58, 58, 58);
+  border-radius: 25px;
+  box-shadow: 0 3px 15px rgb(0, 0, 0);
+}
+
+.list-elements{
+  padding: 5px;
+  color: black;
+  font-family: 'Raleway',sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 32px;
+  margin: 0 0 24px;
+}
+
+#tracks {
+  padding-left: 0;
+}
+
+button{
+  height: 28px;
+}
+
+#artistSort, #titleSort, #albumSort, #durationSort{
+background-color: #ffffff00; /* Green */
+border: none;
+color: rgb(0, 0, 0);
+font-family: 'Raleway',sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 32px;
+  font-weight: bold;
+}
+
+#artistSort:hover, #titleSort:hover, #albumSort:hover, #durationSort:hover{
+  background-color: #7a7373;
+}
+
+#lists{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.result-box{
+  background-color: rgb(58, 58, 58);
+  padding: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px rgb(0, 0, 0);
+}
+
+.info{
+  padding: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
