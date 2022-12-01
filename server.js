@@ -127,6 +127,26 @@ app.get("/artistName/:title", async (req, res) => {
     }
 });
 
+// Grabbing a maximum of 5 track ids given a genre name pattern
+app.get("/genreName/:title", async (req, res) => {
+    let id = req.params.title;
+    id = "'genre_title': '" + id + "'";
+    let data = await coll.connectTracks();
+
+    // Using Regex for pattern matching
+    // Data found is a cursor object and must be turned into an array
+    data = await data.find(
+        { track_genres: {$regex: id,$options:'i'} } ).toArray();
+    data = data.slice(0,5);
+    
+    if (data) {
+        res.send(data);
+    }
+    else {
+        res.status(404).send(`No matches were found!`);
+    }
+});
+
 // Grabbing all the matching artist ids given an artist name pattern
 app.get("/matchingArtist/:name", async (req, res) => {
     const id = req.params.name;
