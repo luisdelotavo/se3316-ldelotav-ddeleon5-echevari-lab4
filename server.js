@@ -1,7 +1,22 @@
 // Adding dependencies
 const express = require('express');
 const app = express();
+const router = express.Router();
 const port = 3000;
+
+// Adding middleware
+// Lets us use the body when sending requests
+app.use(express.json());
+router.use(express.json());
+
+// Parses the request body
+const bp = require("body-parser");
+router.use(bp.json());
+router.use(bp.urlencoded({ extended: true }));
+
+// Installing the router object for the list requests
+// Any express object that uses router will look like localhost:3000/lists/...
+app.use("/lists", router);
 
 // Connecting to the collection and adding it to a variable
 const coll = require('./connect');
@@ -103,6 +118,11 @@ app.get("/artistName/:name", async (req, res) => {
         res.status(404).send(`No matches were found!`);
     }
 });
+
+/* The following requests will use the router object instead, 
+since we are dealing with the creation, update, and deletion of playlists */
+
+
 
 // Listening to the port
 app.listen(port, () => {
