@@ -104,8 +104,6 @@ app.get("/artistName/:name", async (req, res) => {
     }
 });
 
-
-
 // Listening to the port
 app.listen(port, () => {
     console.log(`Listing on port ${port}`);
