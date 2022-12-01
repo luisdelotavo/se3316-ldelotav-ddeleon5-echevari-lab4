@@ -2,25 +2,32 @@ const mongoose = require('mongoose');
 
 // Creating a schema to interact with the databas
 // How the table will look
+// Lists is the only collection that needs a schema since we imported the csv files manually
 const listSchema = new mongoose.Schema({
-    list_name: {
-        Type: String,
+    playlist_name: {
+        type: String,
+        required: true,
+        unique: true
     },
     total_duration: {
         default: 0,
-        Type: Number
+        type: Number
     },
     no_tracks: {
         default: 0,
-        Type: Number
+        type: Number
     },
     author:{
-        Type: String,
+        type: String
     },
     tracks_list: {
-        Type: Number
+        type: Number
+    },
+    private: {
+        type: Boolean,
+        default: true
     }
 });
 
 // Exporting and adding a name - Lists
-module.exports = mongoose.model('Lists', listSchema);
+module.exports = mongoose.model('Playlists', listSchema);
