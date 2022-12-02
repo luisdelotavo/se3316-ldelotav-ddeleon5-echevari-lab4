@@ -1,7 +1,5 @@
-
-
 function Privacypolicy(){
-    return(
+return(
 <div>
 <h1>Privacy Policy</h1>
 <p>Last updated: December 01, 2022</p>
@@ -179,7 +177,7 @@ function Privacypolicy(){
 <ul>
 <li>By email: daryndeleon@gmail.com</li>
 </ul>
-        </div>
-    );
+</div>
+);
 }
 export default Privacypolicy;

@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import '../App.css';
+import Privacypolicy from "./privacypolicy";
 
 function App() {
   
-
   const [tracks, setTrack] = useState([]);
+
+
 
   let lastSearch = "";
 
@@ -112,8 +115,13 @@ function App() {
 
   // let listArray = [];
 
-  return (
+  return(
     <div>
+
+    <Routes>
+      <Route path="/privacypolicy" element={<Privacypolicy/>}/>
+    </Routes>
+
     <div className="intro">
         <table className= "search-bar">
             <tr>
