@@ -32,7 +32,7 @@ const listSchema = new mongoose.Schema({
     },
     comments_list: [
         {
-            commment: String,
+            comment: String,
             author_by: String,
             rating: Number
         }

@@ -187,19 +187,36 @@ router.post("/create", async (req, res) => {
 // Patch verb is for updating a resource (WIP)
 router.patch("/:playlist_name/add", async (req, res) => {
 
+    // Grabbing the information from the user-input
     let id = req.params.playlist_name;
     let id_body = req.body;
-    const data = await coll.connectPlaylists();
+    let data = await coll.connectPlaylists();
+    let dataTracks = await coll.connectTracks();
+    let inputted_track = JSON.stringify(req.body);
+    inputted_track = inputted_track.replace(/\D/g, '');
+
+    // Searching through the tracks collection to find the track duration
+    dataTracks = await dataTracks.find(
+        { track_id: inputted_track } ).toArray();
+    track_duration = dataTracks[0].track_duration;
+
+    // Once found, update the total playlist time
+
+    // Once found, update the single time
+
+    console.log(id_body);
 
 
-    /*
+
+
+    //Will update the track list
     let result = data.updateOne(
         { playlist_name: id },
-        { $set: id_body }
+        { $set: id_body },
     )
-    */
-   console.log(id_body);
-    res.send(`Playlist ${id} has been updated!`)
+    
+    console.log(id_body);
+    res.send(`Playlist ${id} has been overriden!`)
 })
 
 // Patch method to make the playlist either private or public
@@ -208,8 +225,6 @@ router.put("/:playlist_name/status", async (req, res) => {
     let id = req.params.playlist_name;
     let id_body = req.body;
     const data = await coll.connectPlaylists();
-    console.log(id_body);
-
 
     let result = data.updateOne(
         { playlist_name: id },
@@ -221,17 +236,43 @@ router.put("/:playlist_name/status", async (req, res) => {
 // Add comments to each of the playlist
 router.post("/:playlist_name/comment", async (req, res) => {
 
-
-    
+    let id = req.params.playlist_name;
+    let id_body = req.body;
+    const data = await coll.connectPlaylists();
+    let result = data.updateOne(
+        { playlist_name: id },
+        { $push: id_body }
+    )
+    res.send(`Successfully added comment to ${id}!`);
 });
 
+// Get a list of the information in a given a playlist name
+router.get("/:playlist_name/information", async (req,res) => {
 
+    // Connecting to the playlist
+    let id = req.params.playlist_name;
+    let data = await coll.connectPlaylists();
 
-// Get a list of the information in a given a playlist name (WIP)
+    // Data found is a cursor object and must be turned into an array
+    data = await data.find(
+        { playlist_name: id } ).toArray();
+    
+    if (data) {
+        res.send(data);
+    }
+    else {
+        res.status(404).send(`No matches were found!`);
+    }
+});
 
-// Gets a list of all the available playlists (WIP)
+// Gets a list of all the available playlists
 router.get("/all", async (req, res) => {
+    let data = await coll.connectPlaylists();
+    data = await data.find( {private: false} ).toArray();
 
+    // Return up to 10 public playlists
+    data = data.slice(0,10);
+    res.send(data);
 });
 
 /* The following functions are used to make code readable,
