@@ -36,7 +36,8 @@ const listSchema = new mongoose.Schema({
             author_by: String,
             rating: Number
         }
-    ]
+    ],
+    last_editted_time: String
 });
 
 // Exporting and adding a name - Lists

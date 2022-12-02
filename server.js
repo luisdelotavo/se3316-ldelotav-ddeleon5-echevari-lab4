@@ -184,40 +184,65 @@ router.post("/create", async (req, res) => {
 });
 
 // Add track ids and the durations to a specific playlist
-// Patch verb is for updating a resource (WIP)
+// Patch verb is for updating a resource
 router.patch("/:playlist_name/add", async (req, res) => {
 
     // Grabbing the information from the user-input
     let id = req.params.playlist_name;
     let id_body = req.body;
+
+    // Connecting to the collections
     let data = await coll.connectPlaylists();
     let dataTracks = await coll.connectTracks();
-    let inputted_track = JSON.stringify(req.body);
-    inputted_track = inputted_track.replace(/\D/g, '');
 
     // Searching through the tracks collection to find the track duration
+    let inputted_track = JSON.stringify(req.body);
+    inputted_track = inputted_track.replace(/\D/g, '');
     dataTracks = await dataTracks.find(
         { track_id: inputted_track } ).toArray();
     track_duration = dataTracks[0].track_duration;
+    track_duration = parseFloat(track_duration.replace(":","."));
 
-    // Once found, update the total playlist time
+    // Will grab the current length of the playlist
+    dataPlaylist = await data.find(
+        { playlist_name: id } ).toArray();
+    let n = dataPlaylist[0].tracks_list.length;
 
-    // Once found, update the single time
-
-    console.log(id_body);
-
-
-
-
-    //Will update the track list
+    // Will add the track to the playlist
     let result = data.updateOne(
         { playlist_name: id },
-        { $set: id_body },
+        { $push: id_body },
+    );
+
+    // Will add the time to the track inside the playlist
+    let result2 = data.updateOne(
+        { playlist_name: id },
+        { $set: { [`tracks_list.${n}.length`]: track_duration } }
     )
-    
-    console.log(id_body);
-    res.send(`Playlist ${id} has been overriden!`)
-})
+
+    // Grab the current time of the playlist
+    current_time = await data.find(
+        { playlist_name: id } ).toArray();
+    current_time = current_time[0].total_duration;
+    current_time = current_time + track_duration;
+
+    // Will update the total time of the playlist
+    let result3 = data.updateOne(
+        { playlist_name: id},
+        { $set: { total_duration : current_time} }
+    );
+
+    res.send(`Added song to ${id}!`)
+});
+
+// Deleting an entire playlist
+router.delete("/:playlist_name/delete", async (req, res) => {
+    let id = req.params.playlist_name;
+    let data = await coll.connectPlaylists();
+
+    let result = data.deleteOne( {playlist_name: id} )
+    res.send(`${id} has been deleted!`);
+});
 
 // Patch method to make the playlist either private or public
 router.put("/:playlist_name/status", async (req, res) => {
@@ -247,7 +272,7 @@ router.post("/:playlist_name/comment", async (req, res) => {
 });
 
 // Get a list of the information in a given a playlist name
-router.get("/:playlist_name/information", async (req,res) => {
+router.get("/:playlist_name/information", async (req, res) => {
 
     // Connecting to the playlist
     let id = req.params.playlist_name;
@@ -274,14 +299,6 @@ router.get("/all", async (req, res) => {
     data = data.slice(0,10);
     res.send(data);
 });
-
-/* The following functions are used to make code readable,
-and does not directly deal with express  */
-
-function updateDuration(){
-
-}
-
 
 // Listening to the port
 app.listen(port, () => {
