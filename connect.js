@@ -28,8 +28,17 @@ async function connectTracks() {
     return db.collection("Tracks");
 }
 
+async function connectPlaylists()
+{
+    let result = await client.connect();
+    db= result.db(databaseName);
+    return db.collection("playlists");
+  
+}
+
 // Exporting so we can use this in other files
 exports.connectGenres = connectGenres;
 exports.connectAlbums = connectAlbums;
 exports.connectArtists = connectArtists;
 exports.connectTracks = connectTracks;
+exports.connectPlaylists = connectPlaylists;

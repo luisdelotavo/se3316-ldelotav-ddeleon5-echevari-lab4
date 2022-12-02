@@ -183,10 +183,63 @@ router.post("/create", async (req, res) => {
     }
 });
 
-// Get a list of the track ids in a given a playlist name
+// Add track ids and the durations to a specific playlist
+// Patch verb is for updating a resource (WIP)
+router.patch("/:playlist_name/add", async (req, res) => {
 
-// Gets a list of all the available playlists 
+    let id = req.params.playlist_name;
+    let id_body = req.body;
+    const data = await coll.connectPlaylists();
 
+
+    /*
+    let result = data.updateOne(
+        { playlist_name: id },
+        { $set: id_body }
+    )
+    */
+   console.log(id_body);
+    res.send(`Playlist ${id} has been updated!`)
+})
+
+// Patch method to make the playlist either private or public
+router.put("/:playlist_name/status", async (req, res) => {
+
+    let id = req.params.playlist_name;
+    let id_body = req.body;
+    const data = await coll.connectPlaylists();
+    console.log(id_body);
+
+
+    let result = data.updateOne(
+        { playlist_name: id },
+        { $set: id_body }
+    )
+    res.send(`The status of ${id} has been changed!`)
+});
+
+// Add comments to each of the playlist
+router.post("/:playlist_name/comment", async (req, res) => {
+
+
+    
+});
+
+
+
+// Get a list of the information in a given a playlist name (WIP)
+
+// Gets a list of all the available playlists (WIP)
+router.get("/all", async (req, res) => {
+
+});
+
+/* The following functions are used to make code readable,
+and does not directly deal with express  */
+
+function updateDuration(){
+
+}
 
 
 // Listening to the port
