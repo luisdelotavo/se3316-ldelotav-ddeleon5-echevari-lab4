@@ -236,12 +236,50 @@ router.patch("/:playlist_name/add", async (req, res) => {
 });
 
 // Deleting an entire playlist
-router.delete("/:playlist_name/delete", async (req, res) => {
+router.delete("/:playlist_name/deletelist", async (req, res) => {
     let id = req.params.playlist_name;
     let data = await coll.connectPlaylists();
 
     let result = data.deleteOne( {playlist_name: id} )
     res.send(`${id} has been deleted!`);
+});
+
+// Deleting an individual song (Work in Progress)
+router.delete("/:playlist_name/delete", async (req, res) => {
+
+    // Grabbing the information from the user-input
+    let id = req.params.playlist_name;
+    let id_body = req.body;
+
+    // Connecting to the collections
+    let data = await coll.connectPlaylists();
+    let dataTracks = await coll.connectTracks();
+
+    // Will delete the track in the playlist
+    let result = data.deleteOne(
+        { playlist_name: id },
+        { $push: id_body },
+    );
+
+    // Searching through the tracks collection to find the track duration
+    let inputted_track = JSON.stringify(req.body);
+    inputted_track = inputted_track.replace(/\D/g, '');
+    dataTracks = await dataTracks.find(
+        { track_id: inputted_track } ).toArray();
+    track_duration = dataTracks[0].track_duration;
+    track_duration = parseFloat(track_duration.replace(":","."));
+
+    // Grab the current time of the playlist
+    current_time = await data.find(
+        { playlist_name: id } ).toArray();
+    current_time = current_time[0].total_duration;
+    current_time = current_time - track_duration;
+
+    // Will update the total time of the playlist
+    let result3 = data.updateOne(
+        { playlist_name: id},
+        { $set: { total_duration : current_time} }
+    );
 });
 
 // Patch method to make the playlist either private or public
